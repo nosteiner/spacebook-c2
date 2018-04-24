@@ -93,9 +93,8 @@ var SpacebookApp = function () {
   }
 
   var renderComments = function (id) {
-
-    var post=$('.post').eq(id)
-    var commentList = post.children('.comments-container').children('.comment-list')
+    var post=$(".post[data-id=" + id + "]")
+    var commentList = post.find('.comment-list')
     var commentsArr = posts[id].comments
     
     commentList.empty();
@@ -112,7 +111,7 @@ var SpacebookApp = function () {
   var removeComment = function (currentComment) {
     var $clickedComment = $(currentComment).closest('.comment');
     var $idComment = $clickedComment.data().id;
-    var $idPost = $clickedComment.parent('.comment-list').parent('.comments-container').parent('.post').data().id
+    var $idPost = $clickedComment.closest('.post').data().id
     var commentsArr = posts[$idPost].comments
     //var comment = commentsArr[$idComment]
     commentsArr.splice($idComment, 1);
