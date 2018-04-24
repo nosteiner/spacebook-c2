@@ -105,7 +105,7 @@ var SpacebookApp = function () {
       commentList.append(li);
       
     }
-
+/////
   }
 
   var removeComment = function (currentComment) {
