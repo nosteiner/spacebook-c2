@@ -1,6 +1,6 @@
 var SpacebookApp = function () {
   var posts = [
-    /*  {text: "Hello world", id: 0, comments:[
+     {text: "Hello world", id: 0, comments:[
         { text: "Man, this is a comment!"},
         { text: "Man, this is a comment!"},
         { text: "Man, this is a comment!"}
@@ -14,7 +14,7 @@ var SpacebookApp = function () {
         { text: "Man, this is a comment!"},
         { text: "Man, this is a comment!"},
         { text: "Man, this is a comment!"}
-      ]}*/
+      ]}  
   ];
 
   // the current id to assign to a post
@@ -53,9 +53,10 @@ var SpacebookApp = function () {
         '<button class="btn btn-primary add-comment">Post Comment</button>' +
         '<ul class="comment-list"></ul> </div>';
 
-      $posts.append('<div class="post" data-id=' + post.id + '>'
+      $posts.append('<div class="post" data-id=' + i + '>'
         + '<a href="#" class="remove">remove</a> ' + '<a href="#" class="show-comments">comments</a> ' + post.text +
         commentsContainer + '</div>');
+        renderComments(i)//Here lets call render commnet function and we will pass i as the post id so we know what to render
     }
   }
 
@@ -77,7 +78,7 @@ var SpacebookApp = function () {
   var createComment = function (currentPost) {
     var $clickedPostComment = $(currentPost).closest('.post');
     var id = $clickedPostComment.data().id;
-    // var post = _findPostById(id);
+    //var post = _findPostById(id);
 
     var commenttext = $clickedPostComment.children('.comments-container').children('.comment-name').val()
 
@@ -86,23 +87,24 @@ var SpacebookApp = function () {
     }
 
     posts[id].comments.push(comment);
-
-    console.log(posts[id].comments)
+    
+    renderComments(id)
+    
   }
 
-  var renderComments = function (currentPost) {
-    var $clickedPostComment = $(currentPost).closest('.post');
-    var id = $clickedPostComment.data().id;
-    var commentList = $clickedPostComment.children('.comments-container').children('.comment-list')
-    var commentsArr = posts[id].comments
+  var renderComments = function (id) {
 
+    var post=$('.post').eq(id)
+    var commentList = post.children('.comments-container').children('.comment-list')
+    var commentsArr = posts[id].comments
+    
     commentList.empty();
 
     for (i = 0; i < commentsArr.length; i++) {
       var comment = commentsArr[i].text
       var li = '<li class="comment" data-id=' + i + '>' + comment + '<a href="#" class="remove-comment" data-id="1">remove</a></li>';
       commentList.append(li);
-      console.log(comment)
+      
     }
 
   }
@@ -151,10 +153,7 @@ $('.posts').on('click', '.show-comments', function () {
 
 $('.posts').on('click', '.add-comment', function () {
   app.createComment(this);
-});
-
-$('.posts').on('click', '.add-comment', function () {
-  app.renderComments(this);
+  
 });
 
 $('.posts').on('click', '.remove-comment', function () {
