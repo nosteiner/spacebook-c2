@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 var postArr = [];
 var id = 0;
 
@@ -50,6 +51,8 @@ $('button').click(clicked);
 $('.remove').click(deletPost);
 
 =======
+=======
+>>>>>>> newbranch
 var SpacebookApp = function () {
   var posts = [
      {text: "Hello world", id: 0, comments:[
@@ -212,6 +215,9 @@ $('.posts').on('click', '.remove-comment', function () {
 
 
 });
+<<<<<<< HEAD
+>>>>>>> newbranch
+=======
 >>>>>>> newbranch
 
 
