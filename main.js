@@ -19,7 +19,7 @@ var SpacebookApp = function () {
   ];
 
   // the current id to assign to a post
-  var currentId = 0;
+  var currentId = "p"+0;
   var $posts = $('.posts');
 
   var _findPostById = function (id) {
@@ -29,7 +29,17 @@ var SpacebookApp = function () {
       }
     }
   }
+  var _converPostId = function (i){
+    return "p"+i
+  }
+  var _converCommentId = function (i){
+    return "c"+i
+  }
+  var _converIdToInsex = function (id){
 
+    return id.slice(1);
+
+  }
 
   var createPost = function (text) {
     var post = {
@@ -48,24 +58,25 @@ var SpacebookApp = function () {
 
     for (var i = 0; i < posts.length; i += 1) {
       var post = posts[i];
+      var postId =_converPostId(i)
 
       var commentsContainer = '<div class="comments-container">' +
         '<input type="text" class="comment-name">' +
         '<button class="btn btn-primary add-comment">Post Comment</button>' +
         '<ul class="comment-list"></ul> </div>';
 
-      $posts.append('<div class="post" data-id=' + i + '>'
+      $posts.append('<div class="post" data-id=' + postId + '>'
         + '<a href="#" class="remove">remove</a> ' + '<a href="#" class="show-comments">comments</a> ' + post.text +
         commentsContainer + '</div>');
-        renderComments(i)//Here lets call render commnet function and we will pass i as the post id so we know what to render
+        renderComments(postId)//Here lets call render commnet function and we will pass i as the post id so we know what to render
     }
   }
 
   var removePost = function (currentPost) {
     var $clickedPost = $(currentPost).closest('.post');
-    var id = $clickedPost.data().id;
+    var postId = $clickedPost.data().id;
 
-    var post = _findPostById(id);
+    var post = _findPostById(postId);
 
     posts.splice(posts.indexOf(post), 1);
     $clickedPost.remove();
@@ -87,7 +98,7 @@ var SpacebookApp = function () {
       text: commenttext
     }
 
-    posts[id].comments.push(comment);
+    posts[ _converIdToInsex(id)].comments.push(comment);
     
     renderComments(id)
     
@@ -96,13 +107,14 @@ var SpacebookApp = function () {
   var renderComments = function (id) {
     var post=$(".post[data-id=" + id + "]")
     var commentList = post.find('.comment-list')
-    var commentsArr = posts[id].comments
+    var commentsArr = posts[ _converIdToInsex(id)].comments
     
     commentList.empty();
 
     for (i = 0; i < commentsArr.length; i++) {
       var comment = commentsArr[i].text
-      var li = '<li class="comment" data-id=' + i + '>' + comment + '<a href="#" class="remove-comment" data-id="1">remove</a></li>';
+      var commentId = _converCommentId(i)
+      var li = '<li class="comment" data-id=' + commentId  + '>' + comment + '<a href="#" class="remove-comment" data-id="1">remove</a></li>';
       commentList.append(li);
       
     }
@@ -113,7 +125,7 @@ var SpacebookApp = function () {
     var $clickedComment = $(currentComment).closest('.comment');
     var $idComment = $clickedComment.data().id;
     var $idPost = $clickedComment.closest('.post').data().id
-    var commentsArr = posts[$idPost].comments
+    var commentsArr = posts[ _converIdToInsex($idPost)].comments
     //var comment = commentsArr[$idComment]
     commentsArr.splice($idComment, 1);
     $clickedComment.remove();
@@ -161,3 +173,9 @@ $('.posts').on('click', '.remove-comment', function () {
 
 
 });
+var converPostId = function (i){
+  return "p"+i
+}
+var converCommentId = function (i){
+  return "c"+i
+}
