@@ -1,25 +1,31 @@
 
 var SpacebookApp = function () {
   var posts = [
-     {text: "Hello world", id: 0, comments:[
-        { text: "Man, this is a comment!"},
-        { text: "Man, this is a comment!"},
-        { text: "Man, this is a comment!"}
-      ]},
-      {text: "Hello world", id: 0, comments:[
-        { text: "Man, this is a comment!"},
-        { text: "Man, this is a comment!"},
-        { text: "Man, this is a comment!"}
-      ]},
-      {text: "Hello world", id: 0, comments:[
-        { text: "Man, this is a comment!"},
-        { text: "Man, this is a comment!"},
-        { text: "Man, this is a comment!"}
-      ]}  
+   /* {
+      text: "Hello world", id: 0, comments: [
+        { text: "Man, this is a comment!" },
+        { text: "Man, this is a comment!" },
+        { text: "Man, this is a comment!" }
+      ]
+    },
+    {
+      text: "Hello world", id: 0, comments: [
+        { text: "Man, this is a comment!" },
+        { text: "Man, this is a comment!" },
+        { text: "Man, this is a comment!" }
+      ]
+    },
+    {
+      text: "Hello world", id: 0, comments: [
+        { text: "Man, this is a comment!" },
+        { text: "Man, this is a comment!" },
+        { text: "Man, this is a comment!" }
+      ]
+    }*/
   ];
 
   // the current id to assign to a post
-  var currentId = "p"+0;
+  var currentId="p"+0;
   var $posts = $('.posts');
 
   var _findPostById = function (id) {
@@ -29,13 +35,13 @@ var SpacebookApp = function () {
       }
     }
   }
-  var _converPostId = function (i){
-    return "p"+i
+  var _converPostId = function (i) {
+    return "p" + i
   }
-  var _converCommentId = function (i){
-    return "c"+i
+  var _converCommentId = function (i) {
+    return "c" + i
   }
-  var _converIdToInsex = function (id){
+  var _converIdToInsex = function (id) {
 
     return id.slice(1);
 
@@ -48,8 +54,8 @@ var SpacebookApp = function () {
       comments: []
     }
 
-    currentId += 1;
-
+    currentId = "p"+(posts.length+1);
+console.log(posts.length)
     posts.push(post);
   }
 
@@ -58,17 +64,23 @@ var SpacebookApp = function () {
 
     for (var i = 0; i < posts.length; i += 1) {
       var post = posts[i];
-      var postId =_converPostId(i)
+      var postId = _converPostId(i)
 
-      var commentsContainer = '<div class="comments-container">' +
-        '<input type="text" class="comment-name">' +
-        '<button class="btn btn-primary add-comment">Post Comment</button>' +
-        '<ul class="comment-list"></ul> </div>';
+     // var commentsContainer = '<div class="comments-container">' +
+      //  '<input type="text" class="comment-name">' +
+      //  '<button class="btn btn-primary add-comment">Post Comment</button>' +
+      //  '<ul class="comment-list"></ul> </div>';
 
-      $posts.append('<div class="post" data-id=' + postId + '>'
-        + '<a href="#" class="remove">remove</a> ' + '<a href="#" class="show-comments">comments</a> ' + post.text +
-        commentsContainer + '</div>');
-        renderComments(postId)//Here lets call render commnet function and we will pass i as the post id so we know what to render
+      //$posts.append('<div class="post" data-id=' + postId + '>'
+      //  + '<a href="#" class="remove">remove</a> ' + '<a href="#" class="show-comments">comments</a> ' + post.text +
+     //   commentsContainer + '</div>');
+      renderComments(postId)
+
+      var source = $('#post-template').html();
+      var template = Handlebars.compile(source)
+      var newHTML = template(post)
+      $('.posts').append(newHTML);
+      console.log(postId)
     }
   }
 
@@ -98,34 +110,41 @@ var SpacebookApp = function () {
       text: commenttext
     }
 
-    posts[ _converIdToInsex(id)].comments.push(comment);
-    
+    posts[_converIdToInsex(id)].comments.push(comment);
+
     renderComments(id)
-    
+
   }
 
   var renderComments = function (id) {
-    var post=$(".post[data-id=" + id + "]")
+    var post = $(".post[data-id=" + id + "]")
     var commentList = post.find('.comment-list')
-    var commentsArr = posts[ _converIdToInsex(id)].comments
-    
+    var commentsArr = posts[_converIdToInsex(id)].comments
+
     commentList.empty();
 
     for (i = 0; i < commentsArr.length; i++) {
-      var comment = commentsArr[i].text
+      var comment = commentsArr[i]
       var commentId = _converCommentId(i)
-      var li = '<li class="comment" data-id=' + commentId  + '>' + comment + '<a href="#" class="remove-comment" data-id="1">remove</a></li>';
+      var li = '<li class="comment" data-id=' + commentId + '>' + comment + '<a href="#" class="remove-comment" data-id="1">remove</a></li>';
       commentList.append(li);
-      
+
+      //var source = $('#comment-template').html();
+     // var template = Handlebars.compile(source)
+     // var newHTML = template(comment)
+      //$('.comments-container').append(newHTML);
+
+     
+
     }
-/////
+    /////
   }
 
   var removeComment = function (currentComment) {
     var $clickedComment = $(currentComment).closest('.comment');
     var $idComment = $clickedComment.data().id;
     var $idPost = $clickedComment.closest('.post').data().id
-    var commentsArr = posts[ _converIdToInsex($idPost)].comments
+    var commentsArr = posts[_converIdToInsex($idPost)].comments
     //var comment = commentsArr[$idComment]
     commentsArr.splice($idComment, 1);
     $clickedComment.remove();
@@ -165,7 +184,7 @@ $('.posts').on('click', '.show-comments', function () {
 
 $('.posts').on('click', '.add-comment', function () {
   app.createComment(this);
-  
+
 });
 
 $('.posts').on('click', '.remove-comment', function () {
@@ -173,9 +192,10 @@ $('.posts').on('click', '.remove-comment', function () {
 
 
 });
-var converPostId = function (i){
-  return "p"+i
+var converPostId = function (i) {
+  return "p" + i
 }
-var converCommentId = function (i){
-  return "c"+i
+var converCommentId = function (i) {
+  return "c" + i
 }
+

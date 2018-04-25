@@ -1,36 +1,67 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <title></title>
 </head>
+
 <body>
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <div class="page-header">
-        <h1>Spacebook</h1>
-      </div>
 
-      <div class="posts">
-      </div>
-
-      <form>
-        <h3>Add a New Post</h3>
-
-        <div class="form-group">
-          <input type="text" id="post-name" class="form-control" placeholder="Post Text">
+  <div id="spacebook-data">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+          <h1>Spacebook</h1>
         </div>
 
-        <button class="btn btn-primary add-post" type="button">Post</button>
-      </form>
+        <div class="posts">
+        </div>
+
+        <form>
+          <h3>Add a New Post</h3>
+
+          <div class="form-group">
+            <input type="text" id="post-name" class="form-control" placeholder="Post Text">
+          </div>
+
+          <button class="btn btn-primary add-post" type="button">Post</button>
+        </form>
+      </div>
     </div>
   </div>
 
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous"></script>
+
+  <script id="post-template" type="text/x-handlebars-template">
+  
+    <div class="post" data-id= {{id}}>
+        <a href="#" class="remove">remove</a>
+        <a href="#" class="show-comments">comments</a> {{text}}
+        
+        <div class="comments-container">
+            <input type="text" class="comment-name">
+            <button class="btn btn-primary add-comment">Post Comment</button>
+            
+          </div>
+      </div>
+  
+  </script>
+
+ <!-- <script id="comment-template" type="text/x-handlebars-template">
+  <ul class="comment-list">
+      <li class="comment" data-id= {{commentId}} > {{text}} 
+        <a href="#" class="remove-comment" data-id="1">remove</a>
+      </li>
+  </ul> 
+</script>-->
+
+<div class="items">
+</div>
+
+  <script src="handlebars-v4.0.11.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
   <script src="main.js"></script>
 </body>
+
 </html>
