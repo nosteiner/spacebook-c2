@@ -5,14 +5,23 @@ var mongoose = require('mongoose');
 
 
 let commentSchema = new mongoose.Schema({
-
-});
+    
+        text: String,
+        user: String
+    
+},{ usePushEach: true });
 
 
 let postSchema = new mongoose.Schema({
 
-});
+        text: String,
+        comments: [commentSchema]
+     
+},{ usePushEach: true });
 
-let Post = mongoose.model('post', postSchema)
+let PostModel = mongoose.model('post', postSchema)
+let CommentModel = mongoose.model('comment', commentSchema)
 
-module.exports = Post
+module.exports.PostModel = PostModel
+module.exports.CommentModel = CommentModel
+
