@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-const SERVER_PORT = (process.env.PORT || '8080');
+const SERVER_PORT = 8080;
 
 mongoose.connect(process.env.CONNECTION_STRING||'mongodb://localhost/spacebookDB', function () {
   console.log("DB connection established!!!");
@@ -132,6 +132,6 @@ app.delete('/delete/posts/:postId/comments/:commentId', function (req, res) {
 
 
 
-app.listen(SERVER_PORT, () => {
+app.listen(process.env.PORT || SERVER_PORT, () => {
   console.log("Server started on port " + SERVER_PORT);
 });
